@@ -1,0 +1,43 @@
+name: 🚀 统一环境连通性测试 (LLM & 邮件)
+
+on:
+  workflow_dispatch: # 允许你在网页端随时手动点击运行
+
+jobs:
+  test-connections:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: 📥 检查代码仓库
+      uses: actions/checkout@v4
+
+    - name: 🐍 初始化 Python 环境
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+        cache: 'pip'
+
+    - name: 📦 安装核心依赖
+      run: |
+        pip install -r requirements.txt
+
+    - name: 🧠 测试 AI 模型 (Agnes AI) 连通性
+      env:
+        # 自动读取你之前在 Settings 里配好的全局 Secrets 和 Variables
+        OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        OPENAI_BASE_URL: ${{ vars.OPENAI_BASE_URL }}
+        LITELLM_MODEL: ${{ vars.LITELLM_MODEL }}
+      run: |
+        echo "正在拉起大模型测试脚本..."
+        python scripts/check_env.py --llm
+
+    - name: 📬 测试邮件通知发送
+      env:
+        EMAIL_SENDER: ${{ secrets.EMAIL_SENDER }}
+        EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
+        EMAIL_RECEIVERS: ${{ secrets.EMAIL_RECEIVERS }}
+        # 强制指定普通分析模式，不真正的执行个股流水
+        TRADING_DAY_CHECK_ENABLED: false
+      run: |
+        echo "正在拉起邮件基础设施测试..."
+        python -m src.notification --check-notify
