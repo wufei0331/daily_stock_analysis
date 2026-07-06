@@ -3,7 +3,8 @@ name: 每日自选股分析
 on:
   # 🎯 核心修改 1：定时时间改为下午 17:00 (你可以根据需要改成 16:00 等)
   schedule:
-    - cron: '20 9 * * 1-5'     # 北京时间 17:00 发车 (UTC 09:00)
+    - cron: '36 3 * * 1-5'     # 北京时间 17:00 发车 (UTC 09:00)
+    - cron: '2 7 * * 1-5'     # 北京时间 17:00 发车 (UTC 09:00)
   
   workflow_dispatch:
     inputs:
@@ -369,7 +370,7 @@ jobs:
           # 自选股配置
           # ==========================================
           # 避免直接写入 STOCK_LIST，保留同名 Environment variables 的 runner 环境值。
-          STOCK_LIST_CONFIG: "000012,603026,300943,002056,002657,300014,600030,601066,688017,603728"
+          STOCK_LIST_CONFIG: "000012,603026,300943,002056,300014,600030,601066,688017,603728,300607,603728,002558"
           MARKET_REVIEW_REGION: ${{ vars.MARKET_REVIEW_REGION || secrets.MARKET_REVIEW_REGION || 'cn' }}
           MARKET_REVIEW_COLOR_SCHEME: ${{ vars.MARKET_REVIEW_COLOR_SCHEME || secrets.MARKET_REVIEW_COLOR_SCHEME || 'green_up' }}
           
