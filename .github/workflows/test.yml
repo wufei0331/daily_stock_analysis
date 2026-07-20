@@ -1,10 +1,6 @@
 name: test
 
 on:
-  # 🎯 核心修改 1：定时时间改为下午 17:00 (你可以根据需要改成 16:00 等)
-  schedule:
-    - cron: '30 9 * * 1-5'     # 北京时间 17:00 发车 (UTC 09:00)
-  
   workflow_dispatch:
     inputs:
       mode:
@@ -369,7 +365,7 @@ jobs:
           # 自选股配置
           # ==========================================
           # 避免直接写入 STOCK_LIST，保留同名 Environment variables 的 runner 环境值。
-          STOCK_LIST_CONFIG: "TSLA,NVDA,002384,000938"
+          STOCK_LIST_CONFIG: "601066,512880,159852,600536,512100,002558,300502,300308"
           MARKET_REVIEW_REGION: ${{ vars.MARKET_REVIEW_REGION || secrets.MARKET_REVIEW_REGION || 'cn' }}
           MARKET_REVIEW_COLOR_SCHEME: ${{ vars.MARKET_REVIEW_COLOR_SCHEME || secrets.MARKET_REVIEW_COLOR_SCHEME || 'green_up' }}
           
@@ -388,7 +384,7 @@ jobs:
           # 系统配置
           # ==========================================
           LOG_LEVEL: INFO
-          MAX_WORKERS: ${{ vars.MAX_WORKERS || secrets.MAX_WORKERS || '1' }}
+          MAX_WORKERS: ${{ vars.MAX_WORKERS || secrets.MAX_WORKERS || '5' }}
           # 筹码分布：默认 false（云端接口不稳定）；需启用时在 Settings → Variables 添加 ENABLE_CHIP_DISTRIBUTION=true
           ENABLE_CHIP_DISTRIBUTION: ${{ vars.ENABLE_CHIP_DISTRIBUTION || secrets.ENABLE_CHIP_DISTRIBUTION || 'false' }}
           # 实时行情数据源优先级（腾讯有量比且稳定，推荐首选）
